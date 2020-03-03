@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>无标题文档</title>
+		<link href="css/common.css" rel="stylesheet" type="text/css" />
+		<link href="css/style.css" rel="stylesheet" type="text/css" />
+		<style>
+			.lf {
+				padding-bottom: 20px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="itemsApp">
+			<!-- main begin-->
+			<div class="sale">
+				<h1 class="lf">拍卖结束的商品</h1>
+			</div>
+			<div class="items">
+				<template>
+					<el-table :data="shopping" border style="width: 100%">
+						<el-table-column prop="shoppingname" label="名称" width="180">
+						</el-table-column>
+						<el-table-column prop="startdata" label="开始时间">
+						</el-table-column>
+						<el-table-column prop="enddata" label="结束时间">
+						</el-table-column>
+						<el-table-column prop="price1" label="起拍价">
+						</el-table-column>
+						<el-table-column prop="price2" label="成交价">
+						</el-table-column>
+						<el-table-column prop="user" label="买家">
+						</el-table-column>
+					</el-table>
+				</template>
+				<div class="sale">
+					<h1 class="lf">拍卖中的商品</h1>
+				</div>
+				<template>
+					<el-table :data="shoppings" border style="width: 100%">
+						<el-table-column prop="shoppingname" label="名称" width="180">
+						</el-table-column>
+						<el-table-column prop="startdata" label="开始时间">
+						</el-table-column>
+						<el-table-column prop="enddata" label="结束时间">
+						</el-table-column>
+						<el-table-column prop="price" label="起拍价">
+						</el-table-column>
+						<el-table-column prop="prices" label="出价记录">
+							<template slot-scope="temp">
+								<div v-for="(tem,i) in temp.row.prices">{{tem.text}}</div>
+							</template>
+						</el-table-column>
+					</el-table>
+				</template>
+				<!-- main end-->
+			</div>
+		</div>
+	</body>
+	<script>
+		var itemsApp = new Vue({
+			el: ".itemsApp",
+			data: {
+				shopping: [{
+					shoppingid: 1,
+					shoppingname: "大碗",
+					shoppingdes: "瓷器",
+					startdata: "2012-12-12",
+					enddata: "2012-12-12",
+					price1: 2000,
+					price2: 3000,
+					user: "张三"
+				}],
+				shoppings: [{
+					shoppingid: 1,
+					shoppingname: "大碗",
+					startdata: "2012-12-12",
+					enddata: "2012-12-12",
+					price: 2000,
+					prices: [{
+						text: "旺季200元"
+					}, {
+						text: "阿松大300元"
+					}]
+				}],
+			}
+		});
+	</script>
+
+</html>

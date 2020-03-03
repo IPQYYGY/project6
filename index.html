@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link href="css/common.css" rel="stylesheet" type="text/css" />
+		<link href="css/style.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="css/index.css" />
+		<script type="text/javascript" src="js/vue.js"></script>
+		<script type="text/javascript" src="js/jquery-1.12.4.js"></script>
+		<script type="text/javascript" src="js/jq_ajax_config.js"></script>
+	
+	</head>
+
+	<body>
+		<div id="indexApp">
+			<el-container style='height:95vh; border: 1px solid #eee'>
+				<el-header style='height:10%;'>
+					<div class="sale">
+						<h1 class="lf">在线拍卖系统</h1>
+						<div class="logout right">
+							<a href="#" title="注销">注销</a>
+						</div>
+					</div>
+				</el-header>
+				<el-container>
+					<el-aside width="200px">
+						<el-menu>
+							<el-submenu index="1">
+								<template slot="title">
+									<i class="el-icon-shopping-bag-1"></i>
+									<span>拍卖管理</span>
+								</template>
+								<el-menu-item-group>
+									<el-menu-item index="1-2" @click="showView('拍卖品列表页.html')"><i class="el-icon-coffee-cup"></i>拍卖商品</el-menu-item>
+									<el-menu-item index="1-1" @click="showView('查看竞拍结果.html')"><i class="el-icon-document"></i>拍卖纪录</el-menu-item>
+								</el-menu-item-group>
+							</el-submenu>
+							<el-submenu index="2">
+								<template slot="title">
+									<i class="el-icon-receiving "></i>
+									<span>商品管理</span>
+								</template>
+								<el-menu-item-group>
+									<el-menu-item index="2-3" @click="showView('增加商品页.html')"><i class="el-icon-folder-add"></i>添加商品</el-menu-item>
+									<el-menu-item index="2-2" @click="showView('拍卖商品管理页.html')"><i class="el-icon-search"></i>管理商品</el-menu-item>
+								</el-menu-item-group>
+							</el-submenu>
+						</el-menu>
+					</el-aside>
+					<el-main>
+						<div id="cnt"></div>
+					</el-main>
+				</el-container>
+			</el-container>
+		</div>
+	</body>
+	<script type="text/javascript" src="js/index.js"></script>
+	<script>
+		var indexApp = new Vue({
+			data: {},
+			methods: {
+				showView(url) {
+					$('#cnt').load(url);
+				}
+			},
+			mounted() {
+				this.showView('right.html');
+			}
+		}).$mount('#indexApp');
+	</script>
+
+</html>
