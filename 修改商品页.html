@@ -43,29 +43,23 @@
 					</el-col>
 				</el-form-item>
 				<el-form-item label="开始时间" required>
-					<el-col :span="3">
-						<el-form-item prop="date1">
-							<el-date-picker type="date" placeholder="选择日期" style="width: 80%;"></el-date-picker>
-						</el-form-item>
-					</el-col>
-					<el-col class="line" :span="1">-</el-col>
-					<el-col :span="3">
-						<el-form-item prop="date2">
-							<el-time-picker placeholder="选择时间" style="width: 80%;"></el-time-picker>
-						</el-form-item>
+					<el-col :span="4">
+						<template>
+							<div class="block" style="">
+								<el-date-picker v-model="value1" type="datetime" placeholder="选择日期时间">
+								</el-date-picker>
+							</div>
+						</template>
 					</el-col>
 				</el-form-item>
 				<el-form-item label="结束时间" required>
-					<el-col :span="3">
-						<el-form-item prop="date1">
-							<el-date-picker type="date" placeholder="选择日期" style="width: 80%;"></el-date-picker>
-						</el-form-item>
-					</el-col>
-					<el-col class="line" :span="1">-</el-col>
-					<el-col :span="3">
-						<el-form-item prop="date2">
-							<el-time-picker placeholder="选择时间" style="width: 80%;"></el-time-picker>
-						</el-form-item>
+					<el-col :span="4">
+						<template>
+							<div class="block" style="">
+								<el-date-picker v-model="value2" type="datetime" placeholder="选择日期时间">
+								</el-date-picker>
+							</div>
+						</template>
 					</el-col>
 				</el-form-item>
 				<el-form-item label="拍卖品图片" required>
@@ -95,22 +89,34 @@
 
 	<script>
 		var updateApp = new Vue({
-				el: ".updateApp",
-				data: {
-					shopping: {},
-					rules: {},
-					dialogImageUrl: '',
-					dialogVisible: false
+			el: ".updateApp",
+			data: {
+				auction: {
+					auctionname: "",
+					auctionstartprice: "",
+					auctionupset: "",
+					auctionstarttime: "",
+					auctionendtime: "",
+					auctionpictype: "",
+					auctiondesc: "",
 				},
-				methods: {
-					handleRemove(file, fileList) {
-						console.log(file, fileList);
-					},
-					handlePictureCardPreview(file) {
-						this.dialogImageUrl = file.url;
-						this.dialogVisible = true;
-					}
+				value1: "",
+				value2: "",
+				shopping: {},
+				rules: {},
+				dialogImageUrl: '',
+				dialogVisible: false
+			},
+			methods: {
+				handleRemove(file, fileList) {
+					console.log(file, fileList);
+				},
+				handlePictureCardPreview(file) {
+					this.dialogImageUrl = file.url;
+					this.dialogVisible = true;
 				}
-			});
+			}
+		});
 	</script>
-	</html >
+
+</html>

@@ -17,43 +17,43 @@
 		<div class="wrapApp">
 			<div class="forms">
 				<label for="name">名称</label>
-				<el-input placeholder="请输入名称" size="mini " clearable>
+				<el-input placeholder="请输入名称" size="mini " v-model="shoppingname" clearable>
 				</el-input>
 				<label for="name">描述	</label>
-				<el-input placeholder="请输入描述" size="mini " clearable>
+				<el-input placeholder="请输入描述" size="mini " v-model="shoppingdes" clearable>
 				</el-input>
 				<label for="name">开始时间	</label>
-				<el-input placeholder="请输入开始时间" size="mini " clearable>
+				<el-input placeholder="请输入开始时间" size="mini" v-model="startdata" clearable>
 				</el-input>
 				<label for="name">结束时间	</label>
-				<el-input placeholder="请输入结束时间" size="mini " clearable>
+				<el-input placeholder="请输入结束时间" size="mini " v-model="enddata" clearable>
 				</el-input>
 				<label for="name">起拍价</label>
-				<el-input placeholder="请输入起拍价" size="small " clearable>
+				<el-input placeholder="请输入起拍价" size="small " v-model="price" clearable>
 				</el-input>
-				<el-button type="primary" round>查询</el-button>
+				<el-button type="primary" @click="query()" round>查询</el-button>
 			</div>
 			<template>
-				<el-table :data="shopping" border style="width: 100%">
-					<el-table-column prop="shoppingname" label="名称" width="180">
+				<el-table :data="pageInfo.list" border style="width: 100%">
+					<el-table-column prop="auctionname" label="名称" width="180">
 					</el-table-column>
-					<el-table-column prop="shoppingdes" label="描述" width="180">
+					<el-table-column prop="auctiondesc" label="描述" width="180">
 					</el-table-column>
-					<el-table-column prop="startdata" label="开始时间">
+					<el-table-column prop="auctionstarttime" label="开始时间">
 					</el-table-column>
-					<el-table-column prop="enddata" label="结束时间">
+					<el-table-column prop="auctionendtime" label="结束时间">
 					</el-table-column>
-					<el-table-column prop="price" label="起拍价">
+					<el-table-column prop="auctionstartprice" label="起拍价">
 					</el-table-column>
 					<el-table-column label="操作">
 						<template slot-scope="temp">
-							<el-button type="success" @click="showInfo(temp.row.shoppingid)">竞拍</el-button>
+							<el-button type="success" @click="showInfo(temp.row.auctionid)">竞拍</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
 			</template>
 			<div class="page">
-				<el-pagination layout="prev, pager, next" :total="50">
+				<el-pagination layout="prev, pager, next" @prev-click="prev" @next-click="next" :total="this.pageInfo.total*10">
 				</el-pagination>
 			</div>
 		</div>
@@ -64,16 +64,59 @@
 		var wrapApp = new Vue({
 			el: ".wrapApp",
 			data: {
-				shopping: [{
-					shoppingid: 1,
-					shoppingname: "大碗",
-					shoppingdes: "瓷器",
-					startdata: "2012-12-12",
-					enddata: "2012-12-12",
-					price: 2000
-				}]
+				pageInfo: {},
+				shoppingname: "",
+				shoppingdes: "",
+				startdata: "",
+				enddata: "",
+				price: ""
+			},
+			methods: {
+				showInfo(id) {
+					indexApp.showView('竞拍页.html');
+					sessionStorage.setItem('id', id);
+				},
+				prev(cpage) {
+					this.page(cpage, 1);
+				},
+				next(cpage) {
+					this.page(cpage, 1);
+				},
+				query() {
+					if(this.shoppingname == "") {
+						this.shoppingname = "null";
+					}
+					if(this.shoppingdes == "") {
+						this.shoppingdes = "null";
+					}
+					if(this.startdata == "") {
+						this.startdata = "null";
+					}
+					if(this.enddata == "") {
+						this.enddata = "null";
+					}
+					if(this.price == "") {
+						this.price = "-1";
+					}
+					let _this = this;
+					$.getJSON(`http://127.0.0.1:8080/api/auction/1/${this.pageInfo.pageSize}/${this.shoppingname}/${this.shoppingdes}/${this.startdata}/${this.enddata}/${this.price}`,
+						function(res) {
+							_this.pageInfo = res;
+						});
+				},
+				page(pageNum, pageSize) {
+					let _this = this;
+					$.getJSON(`http://127.0.0.1:8080/api/auction/${pageNum}/${pageSize}`,
+						function(res) {
+							_this.pageInfo = res;
+							console.info(res);
+						});
+				}
+			},
+			mounted() {
+				this.page(1, 1);
 			}
-		})
+		});
 	</script>
 
 </html>

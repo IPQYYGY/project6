@@ -43,7 +43,7 @@ select,input,label,button,button{ vertical-align:middle}
 .forms{margin:0 0 10px;}
 .nwselect{ height:18px;border:1px solid #7eabab}
 .nwinput{ width:120px; height:18px; border:1px solid #7eabab}
-.sale{ clear:both; border-bottom:1px solid #ccc; height:47px; overflow:hidden; margin:0 0 10px;line-height:30px; _line-height:47px;}
+.sale{ clear:both; border-bottom:1px solid #ccc; height:55px; overflow:hidden; margin:0 0 10px; _line-height:47px;}
 .sale h1{ font-size:24px;}
 .logout{ background:#EBF6FA; border:1px solid #C8E5F5; text-align:center; line-height:20px; width:60px; margin:20px 0 0}
 .items{border:1px solid #7EABAB;line-height:28px}
