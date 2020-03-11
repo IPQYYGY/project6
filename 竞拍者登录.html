@@ -81,12 +81,13 @@
 					location.href = "竞拍者注册页.html";
 				},
 				login() {
-					$.getJSON(`http://127.0.0.1:8080/api/auctionuser/${this.name}/${this.pwd}`,
+					$.getJSON(`http://127.0.0.1:8080/api/auctionuser/${this.name}/${this.pwd}/0`,
 						function(res) {
-							if(res.code == 200) {
+							if(res != "") {
 								alert("登录成功");
+								sessionStorage.setItem('users',JSON.stringify(res));
 								top.location = 'index.html';
-							} else if(res.code == 400) {
+							} else {
 								alert("账号或密码错误");
 							}
 						});

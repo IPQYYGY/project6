@@ -1,82 +1,142 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>无标题文档</title>
-<link href="css/common.css" rel="stylesheet" type="text/css" />
-<link href="css/style.css" rel="stylesheet" type="text/css" />
-</head>
 
-<body>
-<div class="wrap">
-<!-- main begin-->
-  <div class="items sg-font lf">
-      <ul class="rows">
-        <li>名称：</li>
-        <li class="borderno">花瓶</li>
-      </ul>
-      <ul class="rows">
-        <li>描述：</li>
-        <li class="borderno">古董</li>
-      </ul>
-      <ul class="rows">
-        <li>开始时间：</li>
-        <li class="borderno">2010-01-01 16:30:00</li>
-      </ul>
-      <ul class="rows">
-        <li>结束时间：</li>
-        <li class="borderno">2010-02-02 16:30:00</li>
-      </ul>
-      <ul class="rows border-no">
-        <li>起拍价：</li>
-        <li class="borderno">2.000</li>
-      </ul>
-  </div>
-  <div class="rg borders"><img src="images/ad20.jpg" width="270" height="185" alt="" /></div>
-  <div class="cl"></div>
-  <div class="top10 salebd">
-       <p>
-       <label for="sale">出价：</label>
-       <input type="text"  class="inputwd" id="sale" value="4000"/>
-       <input name="" type="submit" value="竞 拍" class="spbg buttombg f14  sale-buttom" />
-       </p>
-       <p class="f14 red">不能低于最高竞拍价</p>
-  </div>
-  <div class="top10">
-    <input name="" type="submit" value="刷 新" class="spbg buttombg f14" />
-    <input name="" type="submit" value="返回列表" class="spbg buttombg f14" />
-  </div>
-  <div class="offer">
-    <h3>出价记录</h3>
-    <div class="items sg-font">
-      <ul class="rows even strong">
-        <li>竞拍时间</li>
-        <li>竞拍价格</li>
-        <li class="borderno">竞拍人</li>
-      </ul>
-      <ul class="rows">
-        <li>2010-01-05 12:50:01</li>
-        <li>50000,00</li>
-        <li class="borderno">张三</li>
-      </ul>
-      <ul class="rows even">
-        <li>2010-01-05 11:50:01</li>
-        <li>40000,00</li>
-        <li class="borderno">李四</li>
-      </ul>
-      <ul class="rows">
-        <li>2010-01-05 10:50:01</li>
-        <li>30000,00</li>
-        <li class="borderno">王五</li>
-      </ul>
-      <ul class="rows even border-no">
-        <li>2010-01-05 09:50:01</li>
-        <li>20000,00</li>
-        <li class="borderno">李靖</li>
-      </ul>
-  </div>
-  </div>
-<!-- main end-->
-</div>
-</body>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>无标题文档</title>
+		<link href="css/common.css" rel="stylesheet" type="text/css" />
+		<link href="css/style.css" rel="stylesheet" type="text/css" />
+	</head>
+
+	<body>
+		<div class="wrap" id="jingpaiApp">
+			<!-- main begin-->
+			<div class="items sg-font lf">
+				<ul class="rows">
+					<li>名称：</li>
+					<li class="borderno">{{auction.auctionname}}</li>
+				</ul>
+				<ul class="rows">
+					<li>描述：</li>
+					<li class="borderno">{{auction.auctiondesc}}</li>
+				</ul>
+				<ul class="rows">
+					<li>开始时间：</li>
+					<li class="borderno">{{auction.auctionstarttime}}</li>
+				</ul>
+				<ul class="rows">
+					<li>结束时间：</li>
+					<li class="borderno">{{auction.auctionendtime}}</li>
+				</ul>
+				<ul class="rows border-no">
+					<li>起拍价：</li>
+					<li class="borderno">{{auction.auctionstartprice}}</li>
+				</ul>
+			</div>
+			<div class="rg borders"><img src="img/ad20.jpg" width="270" height="185" alt="" /></div>
+			<div class="cl"></div>
+			<div class="top10 salebd">
+				<p>
+					<el-col :span="6">
+						<el-input v-model="price" placeholder="请出价"></el-input>
+					</el-col>
+					<el-button type="primary" round @click="insert()">竞拍</el-button>
+				</p>
+				<p class="f14 red">不能低于最高竞拍价</p>
+			</div>
+			<div class="top10">
+				<el-row>
+
+					<el-button type="primary" round @click="rest()">刷新</el-button>
+					<el-button type="primary" round @click="ret()">返回列表</el-button>
+
+				</el-row>
+			</div>
+			<div class="offer">
+				<h3>出价记录</h3>
+				<div class="items sg-font">
+					<template>
+						<el-table :data="records" border style="width: 100%">
+							<el-table-column prop="auctiontime" label="竞拍时间" width="165">
+							</el-table-column>
+							<el-table-column prop="auctionprice" label="竞拍价格" width="165">
+							</el-table-column>
+							<el-table-column prop="username" label="竞拍人" width="165">
+							</el-table-column>
+							</el-table-column>
+						</el-table>
+					</template>
+				</div>
+				<!-- main end-->
+			</div>
+		</div>
+	</body>
+	<script>
+		var jingpai = new Vue({
+			el: "#jingpaiApp",
+			data: {
+				price: "",
+				auction: {},
+				records: [],
+				record: {}
+			},
+			methods: {
+				insert() {
+					if(this.auction.auctionstartprice > this.price) {
+						this.price = "";
+						alert("出价比起拍价低,请重新出价");
+						return;
+					}
+					if(this.records != "") {
+						if(this.records[0].auctionprice > this.price) {
+							this.price = "";
+							alert("出价比最高出价低,请重新出价");
+							return;
+						}
+					}
+					let user = sessionStorage.getItem('users');
+					this.record["userid"] = JSON.parse(user).userid;
+					this.record["auctionid"] = sessionStorage.getItem('id');
+					this.record["auctionprice"] = this.price;
+					let _this = this; //非常重要
+					$.ajax(`http://127.0.0.1:8080/api/auctionrecord`, {
+						type: "post",
+						contentType: "application/json",
+						data: JSON.stringify(_this.record),
+						dataType: "json",
+						success(res) {
+							if(res.code == "200") {
+								alert('竞拍成功');
+							}
+						}
+					});
+				},
+				query(id) {
+					let _this = this;
+					$.getJSON(`http://127.0.0.1:8080/api/auction/${id}`,
+						function(res) {
+							_this.auction = res;
+						});
+				},
+				ret() {
+					indexApp.showView('拍卖品列表页.html');
+				},
+				rest() {
+					let id = sessionStorage.getItem('id');
+					let _this = this;
+					this.records = [];
+					$.getJSON(`http://127.0.0.1:8080/api/auctionrecord/${id}`,
+						function(res) {
+							_this.records = res;
+						});
+				}
+			},
+			mounted() {
+				let id = sessionStorage.getItem('id');
+				this.query(id);
+				this.rest();
+			}
+		});
+	</script>
+
 </html>

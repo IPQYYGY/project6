@@ -10,7 +10,7 @@
 		<script type="text/javascript" src="js/vue.js"></script>
 		<script type="text/javascript" src="js/jquery-1.12.4.js"></script>
 		<script type="text/javascript" src="js/jq_ajax_config.js"></script>
-	
+
 	</head>
 
 	<body>
@@ -44,7 +44,7 @@
 								</template>
 								<el-menu-item-group>
 									<el-menu-item index="2-3" @click="showView('增加商品页.html')"><i class="el-icon-folder-add"></i>添加商品</el-menu-item>
-									<el-menu-item index="2-2" @click="showView('拍卖商品管理页.html')"><i class="el-icon-search"></i>管理商品</el-menu-item>
+									<el-menu-item index="2-2" @click="click()"><i class="el-icon-search"></i>管理商品</el-menu-item>
 								</el-menu-item-group>
 							</el-submenu>
 						</el-menu>
@@ -63,6 +63,15 @@
 			methods: {
 				showView(url) {
 					$('#cnt').load(url);
+				},
+				click() {
+					let user = sessionStorage.getItem('users');
+					let type = JSON.parse(user).userisadmin;
+					if(type == 1) {
+						this.showView('拍卖商品管理页.html');
+					} else {
+						alert("不是管理员，你无权管理拍卖品");
+					}
 				}
 			},
 			mounted() {

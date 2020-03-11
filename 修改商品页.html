@@ -26,45 +26,45 @@
 			<div class="login logns produce">
 				<h1 class="blues">拍卖品信息</h1>
 			</div>
-			<el-form :model="shopping" :rules="rules" ref="shopping" label-width="100px" class="demo-ruleForm">
-				<el-form-item label="名称" prop="name" required>
+			<el-form :model="auction" :rules="rules" ref="auction" label-width="100px" class="demo-ruleForm">
+				<el-form-item label="名称" prop="name">
 					<el-col :span="6">
-						<el-input></el-input>
+						<el-input v-model="auction.auctionname"></el-input>
 					</el-col>
 				</el-form-item>
-				<el-form-item label="起拍价" prop="price" required>
+				<el-form-item label="起拍价" prop="price">
 					<el-col :span="6">
-						<el-input></el-input>
+						<el-input v-model="auction.auctionstartprice"></el-input>
 					</el-col>
 				</el-form-item>
-				<el-form-item label="底价" prop="prices" required>
+				<el-form-item label="底价" prop="prices">
 					<el-col :span="6">
-						<el-input></el-input>
+						<el-input v-model="auction.auctionupset"></el-input>
 					</el-col>
 				</el-form-item>
-				<el-form-item label="开始时间" required>
+				<el-form-item label="开始时间" prop="startdate">
 					<el-col :span="4">
 						<template>
 							<div class="block" style="">
-								<el-date-picker v-model="value1" type="datetime" placeholder="选择日期时间">
+								<el-date-picker v-model="auction.auctionstarttime" type="datetime" placeholder="选择日期时间">
 								</el-date-picker>
 							</div>
 						</template>
 					</el-col>
 				</el-form-item>
-				<el-form-item label="结束时间" required>
+				<el-form-item label="结束时间" prop="enddate">
 					<el-col :span="4">
 						<template>
 							<div class="block" style="">
-								<el-date-picker v-model="value2" type="datetime" placeholder="选择日期时间">
+								<el-date-picker v-model="auction.auctionendtime" type="datetime" placeholder="选择日期时间">
 								</el-date-picker>
 							</div>
 						</template>
 					</el-col>
 				</el-form-item>
-				<el-form-item label="拍卖品图片" required>
-					<el-col :span="3">
-						<el-upload action="" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
+				<el-form-item label="拍卖品图片" prop="img">
+					<el-col :span="5">
+						<el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
 							<i class="el-icon-plus"></i>
 						</el-upload>
 						<el-dialog :visible.sync="dialogVisible">
@@ -72,14 +72,15 @@
 						</el-dialog>
 					</el-col>
 				</el-form-item>
-				<el-form-item label="描述" prop="desc" required>
+				<el-form-item label="描述" prop="desc">
 					<el-col :span="6">
-						<el-input type="textarea"></el-input>
+						<el-input type="textarea" v-model="auction.auctiondesc"></el-input>
+
 					</el-col>
 				</el-form-item>
 				<el-form-item>
 					<el-col :span="6">
-						<el-button type="primary" @click="submitForm('ruleForm')">立即更新</el-button>
+						<el-button type="primary" @click="update()">立即创建</el-button>
 						<el-button @click="resetForm('ruleForm')">重置</el-button>
 					</el-col>
 				</el-form-item>
@@ -88,7 +89,7 @@
 	</body>
 
 	<script>
-		var updateApp = new Vue({
+		var addApp = new Vue({
 			el: ".updateApp",
 			data: {
 				auction: {
@@ -97,17 +98,72 @@
 					auctionupset: "",
 					auctionstarttime: "",
 					auctionendtime: "",
-					auctionpictype: "",
+					auctionpic: "",
 					auctiondesc: "",
 				},
-				value1: "",
-				value2: "",
-				shopping: {},
-				rules: {},
+				rules: {
+					name: [{
+						required: true,
+						message: '请输入拍卖名称',
+						trigger: 'blur'
+					}],
+					price: [{
+						required: true,
+						message: '请输入起拍价',
+						trigger: 'blur'
+					}],
+					prices: [{
+						required: true,
+						message: '请输入底价',
+						trigger: 'blur'
+					}],
+					startdate: [{
+						required: true,
+						message: '请输入开始时间',
+						trigger: 'blur'
+					}],
+					enddate: [{
+						required: true,
+						message: '请输入终止时间',
+						trigger: 'blur'
+					}],
+					img: [{
+						required: true,
+						message: '请输入图片',
+						trigger: 'blur'
+					}],
+					desc: [{
+						required: true,
+						message: '请输入描述',
+						trigger: 'blur'
+					}],
+				},
 				dialogImageUrl: '',
 				dialogVisible: false
 			},
 			methods: {
+				query(id) {
+					let _this = this;
+					$.getJSON(`http://127.0.0.1:8080/api/auction/${id}`,
+						function(res) {
+							_this.auction = res;
+						});
+				},
+				update() {
+					let _this = this; //非常重要
+					$.ajax(`http://127.0.0.1:8080/api/auction`, {
+						type: "put",
+						contentType: "application/json",
+						data: JSON.stringify(_this.auction),
+						dataType: "json",
+						success(res) {
+							if(res.code == "200") {
+								alert('保存成功');
+								indexApp.showView('拍卖品列表页.html');
+							}
+						}
+					});
+				},
 				handleRemove(file, fileList) {
 					console.log(file, fileList);
 				},
@@ -115,6 +171,10 @@
 					this.dialogImageUrl = file.url;
 					this.dialogVisible = true;
 				}
+			},
+			mounted() {
+				let id = sessionStorage.getItem('sid');
+				this.query(id);
 			}
 		});
 	</script>

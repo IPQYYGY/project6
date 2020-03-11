@@ -50,8 +50,8 @@
 						</el-table-column>
 						<el-table-column label="操作">
 							<template slot-scope="temp">
-								<el-button type="success" round @click="showInfo(temp.row.shoppingid)">修改</el-button>
-								<el-button type="danger" round @click="del(temp.row.shoppingid,temp.$index)">删除</el-button>
+								<el-button type="success" round @click="showInfo(temp.row.auctionid)">修改</el-button>
+								<el-button type="danger" round @click="del(temp.row.auctionid,temp.$index)">删除</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -78,7 +78,7 @@
 				methods: {
 					showInfo(id) {
 						indexApp.showView('修改商品页.html');
-						sessionStorage.setItem('id', id);
+						sessionStorage.setItem('sid', id);
 					},
 					del(id, index) {
 						$.ajax(`http://127.0.0.1:8080/api/auction/${id}`, {
@@ -130,7 +130,7 @@
 					}
 				},
 				mounted() {
-					this.page(1, 1);
+					this.page(1, 3);
 				}
 			});
 		</script>

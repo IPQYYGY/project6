@@ -147,10 +147,8 @@
 			},
 			methods: {
 				add() {
-					this.auction.auctionpic = this.dialogImageUrl;
-					console.info(this.auction);
 					let _this = this; //非常重要
-					$.ajax("http://127.0.0.1:8080/api/auction", {
+					$.ajax(`http://127.0.0.1:8080/api/auction`, {
 						type: "post",
 						contentType: "application/json",
 						data: JSON.stringify(_this.auction),
@@ -158,6 +156,7 @@
 						success(res) {
 							if(res.code == "200") {
 								alert('保存成功');
+								indexApp.showView('拍卖品列表页.html');
 							}
 						}
 					});
@@ -172,4 +171,5 @@
 			}
 		})
 	</script>
+
 </html>
